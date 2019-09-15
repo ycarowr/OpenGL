@@ -1,4 +1,6 @@
+#include <GL/glew.h>
 #include <GLFW/glfw3.h>
+#include<iostream>
 
 void drawTriangle()
 {
@@ -28,6 +30,12 @@ int main(void)
 
 	/* Make the window's context current */
 	glfwMakeContextCurrent(window);
+
+	bool glewInitialization = glewInit();
+	if (glewInitialization != GLEW_OK)
+		std::cout << "Error, GLEW not Ok!" << std::endl;
+
+	std::cout << glGetString(GL_VERSION) << std::endl;
 
 	/* Loop until the user closes the window */
 	while (!glfwWindowShouldClose(window))
