@@ -29,7 +29,7 @@ void Start()
 	//tells the opengl how we are gonna use the buffer, this case, as a simple array
 	glBindBuffer(GL_ARRAY_BUFFER, buffer);
 
-	//declare the data we want to put in the buffer
+	//declare the data we want to put in the buffer inside the memory
 	float trianglePositions [] 
 	{
 		-0.5f, -0.5f, 
@@ -43,7 +43,7 @@ void Start()
 	//the usage is a hint to opengl of how we are gonna use the it, check documentation
 	auto usage = GL_STATIC_DRAW;
 
-	//finally send the data 
+	//finally copy the data form the memory to the gpu
 	glBufferData(GL_ARRAY_BUFFER, size, trianglePositions, usage);
 }
 
