@@ -2,6 +2,9 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include<iostream>
+#include <fstream>
+#include <string>
+#include <sstream>
 
 //Vertex Shader -> Defines the positions of the vertexes, called once for each vertex. (x, y)
 //Fragment Shader -> "Paints" the pixels with colors, very often called many times more than the vertex shader. (RGBA)
@@ -54,6 +57,55 @@ static unsigned int CompileShader(unsigned int type, const std::string source)
 	}
 
 	return id;
+}
+
+//holds the source strings 
+struct ShaderProgramSource
+{
+	std::string VertexSource;
+	std::string FragmentSource;
+};
+
+//creates a function to read the file at the path and create the shaders 
+static ShaderProgramSource ParseShader(const std::string& filePath)
+{
+	//opens the file
+	std::ifstream stream(filePath);
+
+	//current line
+	std::string line;
+
+	//shader strings
+	std::stringstream ss[2];
+
+	//define an index for stringstream array
+	enum class ShaderType
+	{
+		NONE =-1, VERTEX = 0, FRAGMENT =1
+	};
+
+	ShaderType index = ShaderType::NONE;
+	
+	auto invalid = std::string::npos;
+
+	//iterates the file line by line 
+	while (getline(stream, line))
+	{
+		if (line.find("#shader") != invalid)
+		{
+			if (line.find("vertex") != invalid)
+				index = ShaderType::VERTEX;
+			else if(line.find("fragment") != invalid)
+				index = ShaderType::FRAGMENT;
+		}
+		else 
+		{
+			//adds the line to the buffer
+			ss[(int)index] << line << "\n";
+		}
+	}
+
+	return { ss[0].str(), ss[1].str() }; 
 }
 
 //Creates the shader program in the gpu with the provided source codes
@@ -131,35 +183,24 @@ void Start()
 		firstAttributeStride, 
 		firstAttributePointer);
 
+	//reads the shader at the path and returns both vertex and frag
+	ShaderProgramSource source = ParseShader("res/shaders/Basic.shader");
 
-	//location is zero because index is zero
-	std::string vertexShaderSrc = "#version 330 core\n"
-		"\n"
-		 "layout(location = 0) in vec4 position;\n"
-		"\n"
-		"void main()\n"
-		"{\n"
-		"	gl_Position = position;\n"
-		"}\n";
+	std::cout << "VERTEX: \n" << source.VertexSource << std::endl;
+	std::cout << "FRAGMENT: \n" << source.FragmentSource << std::endl;
 
-	std::string fragmentShaderSrc = "#version 330 core\n"
-		"\n"
-		"layout(location = 0) out vec4 color;\n"
-		"\n"
-		"void main()\n"
-		"{\n"
-		"	color = vec4(1.0, 0.0, 0.0, 1.0);\n"
-		"}\n";
-
-	unsigned int shader = CreateShader(vertexShaderSrc, fragmentShaderSrc);
+	//sends the stuff to the gpu
+	unsigned int program = CreateShader(source.VertexSource, source.FragmentSource);
 
 	//bind the shader
-	glUseProgram(shader);
+	glUseProgram(program);
 
 	//the usage is a hint to opengl of how we are gonna use the it, check documentation
 	auto usage = GL_STATIC_DRAW;
 	//finally send the data 
 	glBufferData(GL_ARRAY_BUFFER, size, trianglePositions, usage);
+
+	glDeleteProgram(program);
 }
 
 void Update()
