@@ -1,4 +1,4 @@
-//An OpenGL documentation: http://docs.gl/
+//An gpu documentation: http://docs.gl/
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include<iostream>
@@ -12,7 +12,7 @@
 //Tries to compile the source code in the gpu. If successfull returns the id of the shader, otherwise zero.
 static unsigned int CompileShader(unsigned int type, const std::string source)
 {
-	//tells opengl to create the shader and returns the id
+	//tells gpu to create the shader and returns the id
 	unsigned int id = glCreateShader(type);
 	//pointer to the first byte of the source code of the shader
 	const char* src = source.c_str();
@@ -142,10 +142,10 @@ void Start()
 	//address where the buffer is stored in memory
 	unsigned int buffer;
 
-	//send the buffer to opengl in order it to allocate the buffer properly
+	//send the buffer to gpu in order it to allocate the buffer properly
 	glGenBuffers(amount, &buffer);
 
-	//tells the opengl how we are gonna use the buffer, this case, as a simple array
+	//tells the gpu how we are gonna use the buffer, this case, as a simple array
 	glBindBuffer(GL_ARRAY_BUFFER, buffer);
 
 	//declare the data we want to put in the buffer
@@ -195,7 +195,7 @@ void Start()
 	//bind the shader
 	glUseProgram(program);
 
-	//the usage is a hint to opengl of how we are gonna use the it, check documentation
+	//the usage is a hint to gpu of how we are gonna use the it, check documentation
 	auto usage = GL_STATIC_DRAW;
 	//finally send the data 
 	glBufferData(GL_ARRAY_BUFFER, size, trianglePositions, usage);
