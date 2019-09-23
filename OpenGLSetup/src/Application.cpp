@@ -1,105 +1,20 @@
 //An OpenGL documentation: http://docs.gl/
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
-#include<iostream>
+#include <iostream>
 #include <fstream>
 #include <string>
 #include <sstream>
 #include "Renderer.h"
 #include "IndexBuffer.h"
 #include "VertexBuffer.h"
+#include "Shader.h"
 
 
 int location;
 float incrementR = 0.05f;
 float r = 0;
 unsigned int shader;
-
-static unsigned int CompileShader(unsigned int type, const std::string source)
-{
-	unsigned int id;
-	GlCall(id= glCreateShader(type));
-	const char* src = source.c_str();
-	const int amount = 1;
-	auto length = nullptr;
-	GlCall(glShaderSource(id, amount, &src, length));
-	GlCall(glCompileShader(id));
-
-	{
-		int result;
-		GlCall(glGetShaderiv(id, GL_COMPILE_STATUS, &result));
-		if (result == GL_FALSE)
-		{
-			int length;
-			GlCall(glGetShaderiv(id, GL_INFO_LOG_LENGTH, &length));
-			char* message = (char*)alloca(sizeof(char) * length);
-			GlCall(glGetShaderInfoLog(id, length, &length, message));
-			std::cout 
-				<< "Shader Compilation Error: " 
-				<< (type == GL_VERTEX_SHADER ? "Vertex Shader" : "Fragment Shader: ")
-				<< message << std::endl;
-
-			GlCall(glDeleteShader(id));
-			return 0;
-		}
-	}
-
-	return id;
-}
-
-struct ShaderProgramSource
-{
-	std::string VertexSource;
-	std::string FragmentSource;
-};
-
-//creates a function to read the file at the path and create the shaders 
-static ShaderProgramSource ParseShader(const std::string& filePath)
-{
-	std::ifstream stream(filePath);
-	std::string line;
-	std::stringstream ss[2];
-	enum class ShaderType
-	{
-		NONE =-1, VERTEX = 0, FRAGMENT =1
-	};
-
-	ShaderType index = ShaderType::NONE;
-	auto invalid = std::string::npos;
-	while (getline(stream, line))
-	{
-		if (line.find("#shader") != invalid)
-		{
-			if (line.find("vertex") != invalid)
-				index = ShaderType::VERTEX;
-			else if(line.find("fragment") != invalid)
-				index = ShaderType::FRAGMENT;
-		}
-		else 
-		{
-			ss[(int)index] << line << "\n";
-		}
-	}
-
-	return { ss[0].str(), ss[1].str() }; 
-}
-
-static int CreateShader(const std::string& vertexShader, const std::string& fragmentShader)//strings because it is the actual source code
-{
-	unsigned int program;
-	GlCall(program = glCreateProgram());
-	unsigned int vs;
-	GlCall(vs = CompileShader(GL_VERTEX_SHADER, vertexShader));
-	unsigned int fs;
-	GlCall(fs = CompileShader(GL_FRAGMENT_SHADER, fragmentShader));
-	GlCall(glAttachShader(program, vs));
-	GlCall(glAttachShader(program, fs));
-	GlCall(glLinkProgram(program));
-	GlCall(glValidateProgram(program));
-	GlCall(glDeleteShader(vs));
-	GlCall(glDeleteShader(fs));
-	return program;
-}
 
 void ChangeIncrement()
 {
@@ -157,22 +72,16 @@ int main(void)
 
 		//----------------- Create Shader
 
-		ShaderProgramSource source = ParseShader("res/shaders/Basic.shader");
-		std::cout << "VERTEX: \n" << source.VertexSource << std::endl;
-		std::cout << "FRAGMENT: \n" << source.FragmentSource << std::endl;
-
-		shader = CreateShader(source.VertexSource, source.FragmentSource);
-		GlCall(glUseProgram(shader));
+		Shader shader("res/shaders/Basic.shader");
+		shader.Bind();
 
 		//----------------- Uniform
 
-		GlCall(location = glGetUniformLocation(shader, "u_Color"));
-		ASSERT(location != -1);
-		GlCall(glUniform4f(location, 1.0f, 0.3f, 0.8f, 1.0f));
+		shader.SetUniforms4f("u_Color", 1.0f, 0.3f, 0.8f, 1.0f);
 
 		//----------------- Unbind everything
 
-		GlCall(glUseProgram(0));
+		shader.Unbind();
 		GlCall(glBindBuffer(GL_ARRAY_BUFFER, 0));
 		GlCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0));
 
@@ -181,8 +90,8 @@ int main(void)
 		{
 			glClear(GL_COLOR_BUFFER_BIT);
 
-			GlCall(glUseProgram(shader));
-			GlCall(glUniform4f(location, r, 0.3f, 0.8f, 1.0f));
+			shader.Bind();
+			shader.SetUniforms4f("u_Color", 0.3f, 0.8f, 1.0f);
 			ib.Bind();
 
 			ChangeIncrement();
