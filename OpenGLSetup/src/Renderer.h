@@ -1,6 +1,10 @@
 #pragma once
 
 #include <GL/glew.h>
+#include "IndexBuffer.h"
+#include "VertexBuffer.h"
+#include "VertexArray.h"
+#include "Shader.h" 
 
 #define ASSERT(x) if (!(x)) __debugbreak();
 #define GlCall(x) GlClearError();\

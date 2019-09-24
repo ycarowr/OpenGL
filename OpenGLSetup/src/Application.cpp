@@ -9,6 +9,7 @@
 #include "IndexBuffer.h"
 #include "VertexBuffer.h"
 #include "Shader.h"
+#include "VertexArray.h"
 
 
 int location;
@@ -64,10 +65,11 @@ int main(void)
 		};
 
 		VertexBuffer vb = VertexBuffer(positions, 4 * 2 * sizeof(float));
+		VertexBufferLayout layout;
+		layout.Push<float>(2);
+		VertexArray va;
+		va.AddBuffer(vb, layout);
 		IndexBuffer ib = IndexBuffer(indices, 6);
-
-		GlCall(glEnableVertexAttribArray(0));
-		GlCall(glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 2, 0));
 
 		//----------------- Create Shader
 
@@ -85,6 +87,7 @@ int main(void)
 
 			shader.Bind();
 			shader.SetUniforms4f("u_Color", r, 0.3f, 0.8f, 1.0f);
+			va.Bind();
 			ib.Bind();
 
 			ChangeIncrement();
