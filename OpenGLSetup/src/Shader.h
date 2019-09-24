@@ -19,7 +19,9 @@ public:
 	~Shader();
 	void Bind() const;
 	void Unbind() const;
-	void SetUniforms4f(const std::string& name, float v0, float v1, float f2, float f3);
+	void SetUniforms1i(const std::string& name, int i);
+	void SetUniforms1f(const std::string& name, float v0);
+	void SetUniforms4f(const std::string& name, float f0, float f1, float f2, float f3);
 
 private:
 	bool CompileShader();

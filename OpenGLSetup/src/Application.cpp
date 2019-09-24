@@ -10,6 +10,7 @@
 #include "VertexBuffer.h"
 #include "Shader.h"
 #include "VertexArray.h"
+#include "Texture.h"
 
 
 int location;
@@ -52,10 +53,10 @@ int main(void)
 
 		float positions[] //the data of the buffer
 		{
-			-0.5f, -0.5f, //0
-			0.5, -0.5f,	  //1
-			0.5f, 0.5f,   //2
-			-0.5, 0.5f,   //3
+			-0.5f, -0.5f, 0.0f, 0.0f,
+			0.5, -0.5f,	  1.0f, 0.0f,
+			0.5f, 0.5f,   1.0f, 1.0f,
+			-0.5, 0.5f, 0.0f, 1.0f
 		};
 
 		unsigned int indices[] //data of the indexes
@@ -64,11 +65,15 @@ int main(void)
 			2, 3, 0
 		};
 
+		GlCall(glEnable(GL_BLEND));
+		GlCall(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
+		
 		// ---------------- Vertex Buffer
-		VertexBuffer vb = VertexBuffer(positions, 4 * 2 * sizeof(float));
+		VertexBuffer vb = VertexBuffer(positions, 4 * 4 * sizeof(float));
 
 		// ---------------- Vertex Buffer Layout
 		VertexBufferLayout layout;
+		layout.Push<float>(2);
 		layout.Push<float>(2);
 
 		// ---------------- Vertex Array
@@ -83,23 +88,26 @@ int main(void)
 
 		Shader shader("res/shaders/Basic.shader");
 		shader.Bind();
+		shader.SetUniforms1i("u_Texture", 0);
 
 		{
 			//----------------- Uniform
-			shader.SetUniforms4f("u_Color", 1.0f, 0.3f, 0.8f, 1.0f);
+			//shader.SetUniforms4f("u_Color", 1.0f, 0.3f, 0.8f, 1.0f);
 		}
 
+		// ---------------- Texture
+
+		Texture texture("res/textures/aegis.png");
+		texture.Bind();
 		// ---------------- Renderer
 
 		Renderer renderer;
+
 
 		//-------------- Frame by frame
 		while (!glfwWindowShouldClose(window))
 		{
 			renderer.Clear();
-
-			shader.Bind();
-			shader.SetUniforms4f("u_Color", r, 0.3f, 0.8f, 1.0f);
 			
 			//draw call
 			renderer.Draw(va, ib, shader);
