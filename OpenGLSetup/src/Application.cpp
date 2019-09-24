@@ -64,34 +64,47 @@ int main(void)
 			2, 3, 0
 		};
 
+		// ---------------- Vertex Buffer
 		VertexBuffer vb = VertexBuffer(positions, 4 * 2 * sizeof(float));
+
+		// ---------------- Vertex Buffer Layout
 		VertexBufferLayout layout;
 		layout.Push<float>(2);
+
+		// ---------------- Vertex Array
 		VertexArray va;
 		va.AddBuffer(vb, layout);
+
+		//----------------- Index Buffer
+
 		IndexBuffer ib = IndexBuffer(indices, 6);
 
-		//----------------- Create Shader
+		//----------------- Shader
 
 		Shader shader("res/shaders/Basic.shader");
 		shader.Bind();
 
-		//----------------- Uniform
+		{
+			//----------------- Uniform
+			shader.SetUniforms4f("u_Color", 1.0f, 0.3f, 0.8f, 1.0f);
+		}
 
-		shader.SetUniforms4f("u_Color", 1.0f, 0.3f, 0.8f, 1.0f);
+		// ---------------- Renderer
+
+		Renderer renderer;
 
 		//-------------- Frame by frame
 		while (!glfwWindowShouldClose(window))
 		{
-			glClear(GL_COLOR_BUFFER_BIT);
+			renderer.Clear();
 
 			shader.Bind();
 			shader.SetUniforms4f("u_Color", r, 0.3f, 0.8f, 1.0f);
-			va.Bind();
-			ib.Bind();
+			
+			//draw call
+			renderer.Draw(va, ib, shader);
 
 			ChangeIncrement();
-			GlCall(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr));
 			glfwSwapBuffers(window);
 			glfwPollEvents();
 		}
