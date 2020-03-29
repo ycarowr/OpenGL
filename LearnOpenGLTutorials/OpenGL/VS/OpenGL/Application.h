@@ -12,6 +12,8 @@ protected:
 	GLFWwindow *window;
 	virtual void OnRender();
 	virtual void OnStart();
+	virtual unsigned int CreateShader(const char* source, const unsigned int type);
+	virtual unsigned int CreateShaderProgram(const unsigned int vertexId, const unsigned int fragmentId);
 
 private:
 	void InitializeOpenGL();

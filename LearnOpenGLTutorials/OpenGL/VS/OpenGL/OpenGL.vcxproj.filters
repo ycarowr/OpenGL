@@ -27,13 +27,19 @@
     <ClCompile Include="RenderColoredScreen.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="HelloTriangle.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Application.h">
-      <Filter>Source Files</Filter>
+    <ClInclude Include="HelloTriangle.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="RenderColoredScreen.h">
-      <Filter>Source Files</Filter>
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Application.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
