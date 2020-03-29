@@ -70,12 +70,12 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);C:\Users\ywryc\Documents\Projects\OpenGL\OpenGL\glfw-3.3.2\include;C:\Users\ywryc\Documents\Projects\OpenGL\OpenGL\glfw-3.3.2\include\GLAD</IncludePath>
-    <LibraryPath>$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);$(NETFXKitsDir)Lib\um\x86;C:\Users\ywryc\Documents\Projects\OpenGL\OpenGL\glfw-3.3.2\build\src\Debug</LibraryPath>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);C:\Users\ywryc\Documents\Projects\OpenGL\OpenGLSetup\LearnOpenGLTutorials\OpenGL\glfw-3.3.2\include;C:\Users\ywryc\Documents\Projects\OpenGL\OpenGLSetup\LearnOpenGLTutorials\OpenGL\glfw-3.3.2\include\GLAD</IncludePath>
+    <LibraryPath>$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);$(NETFXKitsDir)Lib\um\x86;C:\Users\ywryc\Documents\Projects\OpenGL\OpenGLSetup\LearnOpenGLTutorials\OpenGL\glfw-3.3.2\build\src\Debug</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);C:\Users\ywryc\Documents\Projects\OpenGL\OpenGL\glfw-3.3.2\include;C:\Users\ywryc\Documents\Projects\OpenGL\OpenGL\glfw-3.3.2\include\GLAD</IncludePath>
-    <LibraryPath>$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);$(NETFXKitsDir)Lib\um\x86;C:\Users\ywryc\Documents\Projects\OpenGL\OpenGL\glfw-3.3.2\build\src\Debug</LibraryPath>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);C:\Users\ywryc\Documents\Projects\OpenGL\OpenGLSetup\LearnOpenGLTutorials\OpenGL\glfw-3.3.2\include;C:\Users\ywryc\Documents\Projects\OpenGL\OpenGLSetup\LearnOpenGLTutorials\OpenGL\glfw-3.3.2\include\GLAD</IncludePath>
+    <LibraryPath>$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);$(NETFXKitsDir)Lib\um\x86;C:\Users\ywryc\Documents\Projects\OpenGL\OpenGLSetup\LearnOpenGLTutorials\OpenGL\glfw-3.3.2\build\src\Debug</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
