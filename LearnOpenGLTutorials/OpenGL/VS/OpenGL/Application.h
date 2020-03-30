@@ -1,24 +1,26 @@
 #pragma once
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
+#include <vector>
 
 class Application
 {
 public:
-	void Initialize(const char* title, const int width = 800, const int height = 600);
+	Application(std::vector<float>* vertices);
+	std::vector<float>* Vertices;
+	unsigned int VAO;
+	unsigned int VBO;
+	unsigned int ShaderProgram;
+	
+	void Initialize(const char* title, const int width, const int height);
 	void RenderLoop();
-
 protected:
-	GLFWwindow *window;
 	virtual void OnRender();
 	virtual void OnStart();
-	virtual unsigned int CreateShader(const char* source, const unsigned int type);
-	virtual unsigned int CreateShaderProgram(const unsigned int vertexId, const unsigned int fragmentId);
-
 private:
-	void InitializeOpenGL();
-	void InitializeWindow(const char* title, const int width = 800, const int height = 600);
-	void InitializeGlad();
-	void InitializeCallbacks();
+	void CreateVertexBufferObjects();
+	void CreateVertexArrayObjects();
+	void InitializeInternal(const char* title, const int width, const int height);
+	GLFWwindow *m_Window;
 };
 
