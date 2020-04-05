@@ -1,10 +1,10 @@
 #pragma once
 #include "Application.h"
-#include "QuadProgram.h"
+#include "DoubleTriangleProgram.h"
 
 int main()
 {
-	QuadProgram application = QuadProgram();
+	DoubleTriangleProgram application = DoubleTriangleProgram();
 	application.Initialize();
 	return 0;
 }

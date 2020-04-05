@@ -167,7 +167,7 @@ void Application::RenderLoop()
 		if (Indices != NULL)
 			glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0); //Draw with elements
 		else 
-			glDrawArrays(GL_TRIANGLES, 0, 3); //Draw with Array
+			glDrawArrays(GL_TRIANGLES, 0, Vertices->size()); //Draw with Array
 		
 
 		if (glfwGetKey(m_Window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
