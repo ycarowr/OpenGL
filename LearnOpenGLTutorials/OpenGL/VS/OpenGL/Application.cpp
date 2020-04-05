@@ -5,7 +5,6 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
-
 Application::Application(std::vector<float>* vertices)
 {
 	Vertices = vertices;
@@ -122,6 +121,7 @@ void Application::Initialize(const char* title, const int width, const int heigh
 
 	if (isWiredFrame)
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	IsWireFrame = isWiredFrame;
 }
 
 void Application::InitializeInternal(const char* title, const int width, const int height)
@@ -159,11 +159,10 @@ void Application::RenderLoop()
 	while (!glfwWindowShouldClose(m_Window))
 	{
 		OnRender();
-
+	
 		glUseProgram(ShaderProgram);
 
 		glBindVertexArray(VAO);
-		//glDrawArrays(GL_TRIANGLES, 0, 3);
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
 		if (glfwGetKey(m_Window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
@@ -171,14 +170,12 @@ void Application::RenderLoop()
 
 		glfwSwapBuffers(m_Window);
 		glfwPollEvents();
+		if (glfwGetKey(m_Window, GLFW_KEY_W) == GLFW_PRESS)
+		{
+			IsWireFrame = !IsWireFrame;
+			glPolygonMode(GL_FRONT_AND_BACK, IsWireFrame ? GL_LINE : GL_FILL);
+		}
 	}
-}
-
-bool Application::IsElementBond()
-{
-	std::vector<unsigned int> source = Indices[0];
-	int size = sizeof(unsigned int) * Indices->size();
-	return size > 0;
 }
 
 //Render without VAO

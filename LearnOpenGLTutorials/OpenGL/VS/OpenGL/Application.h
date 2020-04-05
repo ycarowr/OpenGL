@@ -14,6 +14,7 @@ public:
 	unsigned int VBO;
 	unsigned int EBO;
 	unsigned int ShaderProgram;
+	bool IsWireFrame;
 	
 	void Initialize(const char* title, const int width, const int height, bool isWiredFrame);
 	void RenderLoop();
@@ -24,7 +25,6 @@ private:
 	void CreateVertexBufferObjects();
 	void CreateVertexArrayObjects();
 	void CreateElementArrayBuffer();
-	bool IsElementBond();
 	void InitializeInternal(const char* title, const int width, const int height);
 	GLFWwindow *m_Window;
 };
