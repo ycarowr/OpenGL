@@ -16,6 +16,6 @@ void TriangleProgram::Initialize()
 	};
 
 	Application app = Triangle(&vertices);
-	app.Initialize(title, width, height);
+	app.Initialize(title, width, height, false);
 	app.RenderLoop();
 }

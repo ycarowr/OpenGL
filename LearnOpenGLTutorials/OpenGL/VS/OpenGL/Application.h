@@ -15,7 +15,7 @@ public:
 	unsigned int EBO;
 	unsigned int ShaderProgram;
 	
-	void Initialize(const char* title, const int width, const int height);
+	void Initialize(const char* title, const int width, const int height, bool isWiredFrame);
 	void RenderLoop();
 protected:
 	virtual void OnRender();

@@ -25,6 +25,6 @@ void QuadProgram::Initialize()
 	const int height = 600;
 
 	Application app = Quad(&vertices, &indices);
-	app.Initialize(title, width, height);
+	app.Initialize(title, width, height, true);
 	app.RenderLoop();
 }

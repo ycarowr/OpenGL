@@ -93,7 +93,7 @@ unsigned int CreateShaderProgram(const unsigned int vertexId, const unsigned int
 	return shaderProgram;
 }
 
-void Application::Initialize(const char* title, const int width, const int height)
+void Application::Initialize(const char* title, const int width, const int height, bool isWiredFrame)
 {
 	InitializeInternal(title, width, height);
 
@@ -119,6 +119,9 @@ void Application::Initialize(const char* title, const int width, const int heigh
 		typeOfData,
 		isNormalizedData, stride, weirdCallback);
 	glEnableVertexAttribArray(0);
+
+	if (isWiredFrame)
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 }
 
 void Application::InitializeInternal(const char* title, const int width, const int height)
