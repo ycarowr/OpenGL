@@ -1,9 +1,10 @@
-#include "Headers/Application.h"
-#include "Headers/TriagleProgram.h"
+#pragma once
+#include "Application.h"
+#include "QuadProgram.h"
 
 int main()
 {
-	TriagleProgram application = TriagleProgram();
+	QuadProgram application = QuadProgram();
 	application.Initialize();
 	return 0;
 }

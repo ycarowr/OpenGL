@@ -1,11 +1,22 @@
-#include "../Headers/Application.h"
+#pragma once
+#include "Application.h"
 #include <iostream>
 #include <algorithm>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
 
-//Utility
+Application::Application(std::vector<float>* vertices)
+{
+	Vertices = vertices;
+}
+
+Application::Application(std::vector<float>* vertices, std::vector<unsigned int>* indices)
+{
+	Vertices = vertices;
+	Indices = indices;
+}
+
 void FrameBufferSizeCallback(GLFWwindow* m_Window, int width, int height)
 {
 	glViewport(0, 0, width, height);
@@ -82,17 +93,13 @@ unsigned int CreateShaderProgram(const unsigned int vertexId, const unsigned int
 	return shaderProgram;
 }
 
-Application::Application(std::vector<float>* vertices)
-{
-	Vertices = vertices;
-}
-
 void Application::Initialize(const char* title, const int width, const int height)
 {
 	InitializeInternal(title, width, height);
 
 	CreateVertexArrayObjects();
 	CreateVertexBufferObjects();
+	CreateElementArrayBuffer();
 	const char* vertexShader = GetVertexShaderSource();
 	const char* fragmentShader = GetFragmentShaderSource();
 	unsigned int vertexShaderId = CreateShader(vertexShader, GL_VERTEX_SHADER);
@@ -151,16 +158,24 @@ void Application::RenderLoop()
 		OnRender();
 
 		glUseProgram(ShaderProgram);
-		glBindVertexArray(VAO);
-		glDrawArrays(GL_TRIANGLES, 0, 3);
 
-		//process input
+		glBindVertexArray(VAO);
+		//glDrawArrays(GL_TRIANGLES, 0, 3);
+		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+
 		if (glfwGetKey(m_Window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 			glfwSetWindowShouldClose(m_Window, true);
-		
+
 		glfwSwapBuffers(m_Window);
 		glfwPollEvents();
 	}
+}
+
+bool Application::IsElementBond()
+{
+	std::vector<unsigned int> source = Indices[0];
+	int size = sizeof(unsigned int) * Indices->size();
+	return size > 0;
 }
 
 //Render without VAO
@@ -201,21 +216,22 @@ void Application::CreateVertexBufferObjects()
 void Application::CreateVertexArrayObjects()
 {
 	glGenVertexArrays(1, &VAO);
-
-	// Initialization code (done once (unless your object frequently changes))
-	// 1. bind Vertex Array Object
 	glBindVertexArray(VAO);
-
-	// 2. copy our vertices array in a buffer for OpenGL to use
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 	std::vector<float> source = Vertices[0];
 	float* data = &source[0];
 	int size = sizeof(float) * Vertices->size();
 	glBufferData(GL_ARRAY_BUFFER, size, data, GL_STATIC_DRAW);
-
-	// 3. then set our vertex attributes pointers
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(0);
 }
 
-
+void Application::CreateElementArrayBuffer()
+{
+	glGenBuffers(1, &EBO);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+	std::vector<unsigned int> source = Indices[0];
+	unsigned int* data = &source[0];
+	int size = sizeof(unsigned int) * Indices->size();
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, size, data, GL_STATIC_DRAW);
+}

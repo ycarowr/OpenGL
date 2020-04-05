@@ -30,10 +30,13 @@
     <ClCompile Include="RenderColoredScreen.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="TriagleProgram.cpp">
+    <ClCompile Include="Triangle.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Triangle.cpp">
+    <ClCompile Include="QuadProgram.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TriangleProgram.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -47,10 +50,13 @@
     <ClInclude Include="RenderColoredScreen.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="TriagleProgram.h">
+    <ClInclude Include="Triangle.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Triangle.h">
+    <ClInclude Include="QuadProgram.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TriangleProgram.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

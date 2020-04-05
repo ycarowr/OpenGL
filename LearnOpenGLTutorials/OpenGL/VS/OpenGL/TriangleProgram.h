@@ -1,5 +1,5 @@
 #pragma once
-class TriagleProgram
+class TriangleProgram
 {
 public:
 	void Initialize();

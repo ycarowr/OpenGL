@@ -1,4 +1,4 @@
-#include "../Headers/RenderColoredScreen.h"
+#include "RenderColoredScreen.h"
 #include <random>
 #include <chrono>
 #include <iostream>

@@ -2,10 +2,10 @@
 #include "Application.h"
 #include <vector>
 
-class Quad
+
+class Quad : public Application
 {
-public:
-	Quad();
-	~Quad();
+	public:
+		Quad(std::vector<float>* vertices, std::vector<unsigned int>* indices);
 };
 
